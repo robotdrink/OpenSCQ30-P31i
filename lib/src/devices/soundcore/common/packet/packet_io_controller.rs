@@ -138,6 +138,12 @@ impl<ConnectionType: RfcommConnection> PacketIOController<ConnectionType> {
             action: "resending packet until ack received",
         })
     }
+
+    pub async fn send(&self, packet: &packet::Outbound) -> device::Result<()> {
+        self.connection
+            .write(&packet.bytes(self.checksum_kind))
+            .await
+    }
 }
 
 #[cfg(test)]
