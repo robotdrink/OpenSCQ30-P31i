@@ -156,7 +156,39 @@ impl ToPacket for D1202StateUpdate {
     }
 
     fn body(&self) -> Vec<u8> {
-        Vec::new() 
+        let (fw1, fw2) = match &self.dual_firmware_version {
+            common::structures::DualFirmwareVersion::Both { left, right } => (left, right),
+            _ => (&Default::default(), &Default::default()),
+        };
+
+        self.tws_status
+            .bytes()
+            .into_iter()
+            .chain([self.dual_battery.left.level.0, self.dual_battery.right.level.0])
+            .chain([
+                if self.dual_battery.left.is_charging == common::structures::IsBatteryCharging::Yes { 1 } else { 0 },
+                if self.dual_battery.right.is_charging == common::structures::IsBatteryCharging::Yes { 1 } else { 0 },
+            ])
+            .chain(fw1.bytes())
+            .chain(fw2.bytes())
+            .chain(self.serial_number.bytes())
+            .chain([0; 6])
+            .chain(self.equalizer_configuration.bytes())
+            .chain([0; 10])
+            .chain([0])
+            .chain(
+                self.button_configuration
+                    .bytes(d1202::BUTTON_CONFIGURATION_SETTINGS.parse_settings()),
+            )
+            .chain(self.ambient_sound_mode_cycle.bytes())
+            .chain(self.sound_modes.bytes())
+            .chain([0])
+            .chain([self.touch_tone.0.into()])
+            .chain([0, 0])
+            .chain(self.auto_power_off.bytes())
+            .chain(self.low_battery_prompt.bytes())
+            .chain(self.gaming_mode.bytes())
+            .collect()
     }
 }
 
@@ -187,7 +219,7 @@ impl ModuleCollection<d1202::state::D1202State> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use nom::error::VerboseError;
+    use nom_language::error::VerboseError;
 
     #[test]
     fn test_parse_p31i_packet() {
@@ -197,7 +229,7 @@ mod tests {
         let result = D1202StateUpdate::take::<VerboseError<&[u8]>>(&packet_body);
         assert!(result.is_ok(), "Parsing failed: {:?}", result.err());
         let (_, update) = result.unwrap();
-        assert_eq!(update.tws_status.connected, true);
+        assert_eq!(update.tws_status.is_connected, true);
         assert_eq!(update.dual_battery.left.level.0, 5);
         assert_eq!(update.dual_battery.right.level.0, 9);
         assert_eq!(update.serial_number.as_str(), "12023409C9AEAF84");
