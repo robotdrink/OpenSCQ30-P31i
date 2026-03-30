@@ -281,7 +281,10 @@ impl<T: 'static> ModuleCollection<T> {
             change_notify,
             Box::new(EqualizerStateModifier::new(
                 packet_io,
-                EqualizerStateModifierOptions { has_drc: false, wait_for_response: true },
+                EqualizerStateModifierOptions {
+                    has_drc: false,
+                    wait_for_response: true,
+                },
             )),
             settings,
         )
@@ -324,7 +327,10 @@ impl<T: 'static> ModuleCollection<T> {
             change_notify,
             Box::new(EqualizerStateModifier::new(
                 packet_io,
-                EqualizerStateModifierOptions { has_drc: false, wait_for_response: true },
+                EqualizerStateModifierOptions {
+                    has_drc: false,
+                    wait_for_response: true,
+                },
             )),
             settings,
         )
@@ -366,7 +372,10 @@ impl<T: 'static> ModuleCollection<T> {
             change_notify,
             Box::new(EqualizerStateModifier::new(
                 packet_io,
-                EqualizerStateModifierOptions { has_drc: true, wait_for_response: true },
+                EqualizerStateModifierOptions {
+                    has_drc: true,
+                    wait_for_response: true,
+                },
             )),
             settings,
         )
@@ -409,7 +418,10 @@ impl<T: 'static> ModuleCollection<T> {
             change_notify,
             Box::new(EqualizerStateModifier::new(
                 packet_io,
-                EqualizerStateModifierOptions { has_drc: true, wait_for_response: true },
+                EqualizerStateModifierOptions {
+                    has_drc: true,
+                    wait_for_response: true,
+                },
             )),
             settings,
         )

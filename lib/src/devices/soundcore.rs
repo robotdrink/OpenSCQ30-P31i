@@ -19,8 +19,8 @@ pub mod a3951;
 pub mod a3955;
 pub mod a3957;
 pub mod a3959;
-pub mod d1202;
 pub mod common;
+pub mod d1202;
 pub mod development;
 
 use uuid::{Uuid, uuid};

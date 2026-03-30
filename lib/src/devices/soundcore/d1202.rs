@@ -35,19 +35,17 @@ soundcore_device!(
     },
     async |builder| {
         builder.module_collection().add_state_update();
-        
+
         builder.a3959_sound_modes();
 
         builder
             .equalizer_with_drc_tws_no_wait(equalizer::common_settings())
             .await;
-        
+
         builder.button_configuration(&BUTTON_CONFIGURATION_SETTINGS);
         builder.ambient_sound_mode_cycle();
-        
-        builder.reset_button_configuration::<D1202StateUpdate>(
-            RequestState::default().to_packet(),
-        );
+
+        builder.reset_button_configuration::<D1202StateUpdate>(RequestState::default().to_packet());
 
         builder.touch_tone();
         builder.tws_status();

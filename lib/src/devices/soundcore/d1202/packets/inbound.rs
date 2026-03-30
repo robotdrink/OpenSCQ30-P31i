@@ -10,7 +10,6 @@ use tokio::sync::watch;
 use crate::{
     api::device,
     devices::soundcore::{
-        d1202,
         common::{
             self,
             modules::ModuleCollection,
@@ -24,6 +23,7 @@ use crate::{
                 GamingMode, LowBatteryPrompt, button_configuration::ButtonStatusCollection,
             },
         },
+        d1202,
     },
 };
 
@@ -116,11 +116,19 @@ impl FromPacketBody for D1202StateUpdate {
                     let dual_battery = common::structures::DualBattery {
                         left: common::structures::SingleBattery {
                             level: common::structures::BatteryLevel(raw_battery[0]),
-                            is_charging: if raw_battery[2] == 1 { common::structures::IsBatteryCharging::Yes } else { common::structures::IsBatteryCharging::No },
+                            is_charging: if raw_battery[2] == 1 {
+                                common::structures::IsBatteryCharging::Yes
+                            } else {
+                                common::structures::IsBatteryCharging::No
+                            },
                         },
                         right: common::structures::SingleBattery {
                             level: common::structures::BatteryLevel(raw_battery[1]),
-                            is_charging: if raw_battery[3] == 1 { common::structures::IsBatteryCharging::Yes } else { common::structures::IsBatteryCharging::No },
+                            is_charging: if raw_battery[3] == 1 {
+                                common::structures::IsBatteryCharging::Yes
+                            } else {
+                                common::structures::IsBatteryCharging::No
+                            },
                         },
                     };
 
@@ -164,10 +172,23 @@ impl ToPacket for D1202StateUpdate {
         self.tws_status
             .bytes()
             .into_iter()
-            .chain([self.dual_battery.left.level.0, self.dual_battery.right.level.0])
             .chain([
-                if self.dual_battery.left.is_charging == common::structures::IsBatteryCharging::Yes { 1 } else { 0 },
-                if self.dual_battery.right.is_charging == common::structures::IsBatteryCharging::Yes { 1 } else { 0 },
+                self.dual_battery.left.level.0,
+                self.dual_battery.right.level.0,
+            ])
+            .chain([
+                if self.dual_battery.left.is_charging == common::structures::IsBatteryCharging::Yes
+                {
+                    1
+                } else {
+                    0
+                },
+                if self.dual_battery.right.is_charging == common::structures::IsBatteryCharging::Yes
+                {
+                    1
+                } else {
+                    0
+                },
             ])
             .chain(fw1.bytes())
             .chain(fw2.bytes())
@@ -224,7 +245,14 @@ mod tests {
     #[test]
     fn test_parse_p31i_packet() {
         let packet_body = vec![
-            1, 1, 5, 9, 0, 0, 48, 50, 46, 56, 51, 48, 50, 46, 56, 51, 49, 50, 48, 50, 51, 52, 48, 57, 67, 57, 65, 69, 65, 70, 56, 52, 48, 50, 46, 56, 51, 8, 254, 254, 151, 154, 162, 166, 167, 168, 168, 165, 120, 120, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 0, 0, 0, 10, 246, 246, 98, 99, 241, 240, 68, 79, 55, 2, 81, 0, 1, 0, 0, 0, 1, 49, 1, 1, 1, 1, 1, 0, 1, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 255, 255, 255, 255, 255
+            1, 1, 5, 9, 0, 0, 48, 50, 46, 56, 51, 48, 50, 46, 56, 51, 49, 50, 48, 50, 51, 52, 48,
+            57, 67, 57, 65, 69, 65, 70, 56, 52, 48, 50, 46, 56, 51, 8, 254, 254, 151, 154, 162,
+            166, 167, 168, 168, 165, 120, 120, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+            255, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 0, 255, 255, 255, 255, 255, 255,
+            255, 255, 255, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 0, 255,
+            255, 255, 255, 255, 255, 255, 255, 255, 0, 0, 0, 10, 246, 246, 98, 99, 241, 240, 68,
+            79, 55, 2, 81, 0, 1, 0, 0, 0, 1, 49, 1, 1, 1, 1, 1, 0, 1, 100, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 1, 255, 255, 255, 255, 255,
         ];
         let result = D1202StateUpdate::take::<VerboseError<&[u8]>>(&packet_body);
         assert!(result.is_ok(), "Parsing failed: {:?}", result.err());

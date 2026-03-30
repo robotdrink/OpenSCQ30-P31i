@@ -1,15 +1,15 @@
 use openscq30_lib_macros::Has;
 
 use crate::devices::soundcore::{
-    d1202,
     common::{
         modules::reset_button_configuration::ResetButtonConfigurationPending,
         structures::{
-            AmbientSoundModeCycle, AutoPowerOff, DualBattery, DualFirmwareVersion, GamingMode,
-            LowBatteryPrompt, SerialNumber, TwsStatus, TouchTone,
-            button_configuration::ButtonStatusCollection, EqualizerConfiguration,
+            AmbientSoundModeCycle, AutoPowerOff, DualBattery, DualFirmwareVersion,
+            EqualizerConfiguration, GamingMode, LowBatteryPrompt, SerialNumber, TouchTone,
+            TwsStatus, button_configuration::ButtonStatusCollection,
         },
     },
+    d1202,
 };
 
 #[derive(Debug, Clone, PartialEq, Eq, Has)]
