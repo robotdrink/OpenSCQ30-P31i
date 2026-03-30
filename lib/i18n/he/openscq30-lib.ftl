@@ -25,6 +25,7 @@ multi-scene-noise-canceling = ביטול רעשים מרובי סצנות
 disconnected = מנותק
 soundcore-a3935 = Soundcore Life A2 NC
 soundcore-a3959 = Soundcore P30i / Soundcore R50i NC
+soundcore-d1202 = Soundcore P31i
 soundcore-a3955 = Soundcore P40i
 soundcore-development = מידע פיתוח Soundcore
 none = ללא

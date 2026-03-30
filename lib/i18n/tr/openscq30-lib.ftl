@@ -24,6 +24,7 @@ soundcore-a3951 = Soundcore Liberty Air 2 Pro
 soundcore-a3939 = Soundcore Life P3
 soundcore-a3935 = Soundcore Life A2 NC
 soundcore-a3959 = Soundcore P30i / Soundcore R50i NC
+soundcore-d1202 = Soundcore P31i
 equalizer-import-export = Ekolayzer İçe/Dışa Aktar
 normal = Normal
 miscellaneous = Çeşitli

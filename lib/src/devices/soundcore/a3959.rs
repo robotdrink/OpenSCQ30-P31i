@@ -21,10 +21,10 @@ use crate::{
     i18n::fl,
 };
 
-mod modules;
+pub mod modules;
 mod packets;
 mod state;
-mod structures;
+pub mod structures;
 
 soundcore_device!(
     state::A3959State,
