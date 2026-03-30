@@ -281,7 +281,7 @@ impl<T: 'static> ModuleCollection<T> {
             change_notify,
             Box::new(EqualizerStateModifier::new(
                 packet_io,
-                EqualizerStateModifierOptions { has_drc: false },
+                EqualizerStateModifierOptions { has_drc: false, wait_for_response: true },
             )),
             settings,
         )
@@ -324,7 +324,7 @@ impl<T: 'static> ModuleCollection<T> {
             change_notify,
             Box::new(EqualizerStateModifier::new(
                 packet_io,
-                EqualizerStateModifierOptions { has_drc: false },
+                EqualizerStateModifierOptions { has_drc: false, wait_for_response: true },
             )),
             settings,
         )
@@ -366,7 +366,7 @@ impl<T: 'static> ModuleCollection<T> {
             change_notify,
             Box::new(EqualizerStateModifier::new(
                 packet_io,
-                EqualizerStateModifierOptions { has_drc: true },
+                EqualizerStateModifierOptions { has_drc: true, wait_for_response: true },
             )),
             settings,
         )
@@ -409,7 +409,53 @@ impl<T: 'static> ModuleCollection<T> {
             change_notify,
             Box::new(EqualizerStateModifier::new(
                 packet_io,
-                EqualizerStateModifierOptions { has_drc: true },
+                EqualizerStateModifierOptions { has_drc: true, wait_for_response: true },
+            )),
+            settings,
+        )
+        .await;
+    }
+
+    pub async fn add_equalizer_with_drc_tws_no_wait<
+        Conn,
+        const CHANNELS: usize,
+        const BANDS: usize,
+        const VISIBLE_BANDS: usize,
+        const PRESET_BANDS: usize,
+        const MIN_VOLUME: i16,
+        const MAX_VOLUME: i16,
+        const FRACTION_DIGITS: u8,
+    >(
+        &mut self,
+        packet_io: Arc<PacketIOController<Conn>>,
+        database: Arc<OpenSCQ30Database>,
+        device_model: DeviceModel,
+        change_notify: watch::Sender<()>,
+        settings: EqualizerModuleSettings<
+            VISIBLE_BANDS,
+            PRESET_BANDS,
+            MIN_VOLUME,
+            MAX_VOLUME,
+            FRACTION_DIGITS,
+        >,
+    ) where
+        Conn: RfcommConnection + 'static + Send + Sync,
+        T: Has<EqualizerConfiguration<CHANNELS, BANDS, MIN_VOLUME, MAX_VOLUME, FRACTION_DIGITS>>
+            + Has<TwsStatus>
+            + Clone
+            + Send
+            + Sync,
+    {
+        self.add_equalizer_with_custom_state_modifier_tws(
+            database,
+            device_model,
+            change_notify,
+            Box::new(EqualizerStateModifier::new(
+                packet_io,
+                EqualizerStateModifierOptions {
+                    has_drc: true,
+                    wait_for_response: false,
+                },
             )),
             settings,
         )

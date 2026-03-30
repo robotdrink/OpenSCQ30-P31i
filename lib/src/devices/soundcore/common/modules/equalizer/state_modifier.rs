@@ -24,8 +24,19 @@ pub struct EqualizerStateModifier<
     options: EqualizerStateModifierOptions,
 }
 
+#[derive(Debug, Clone, Copy)]
 pub struct EqualizerStateModifierOptions {
     pub has_drc: bool,
+    pub wait_for_response: bool,
+}
+
+impl Default for EqualizerStateModifierOptions {
+    fn default() -> Self {
+        Self {
+            has_drc: false,
+            wait_for_response: true,
+        }
+    }
 }
 
 impl<
@@ -84,13 +95,18 @@ where
             }
         }
 
-        self.packet_io
-            .send_with_response(&if self.options.has_drc {
-                packet::outbound::set_equalizer_with_drc(target_equalizer_configuration)
-            } else {
-                packet::outbound::set_equalizer(target_equalizer_configuration)
-            })
-            .await?;
+        let packet = if self.options.has_drc {
+            packet::outbound::set_equalizer_with_drc(target_equalizer_configuration)
+        } else {
+            packet::outbound::set_equalizer(target_equalizer_configuration)
+        };
+
+        if self.options.wait_for_response {
+            self.packet_io.send_with_response(&packet).await?;
+        } else {
+            self.packet_io.send(&packet).await?;
+        }
+
         state_sender.send_modify(|state| *state.get_mut() = *target_equalizer_configuration);
         Ok(())
     }

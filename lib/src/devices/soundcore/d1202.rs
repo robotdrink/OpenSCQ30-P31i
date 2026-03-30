@@ -39,7 +39,7 @@ soundcore_device!(
         builder.a3959_sound_modes();
 
         builder
-            .equalizer_with_drc_tws(equalizer::common_settings())
+            .equalizer_with_drc_tws_no_wait(equalizer::common_settings())
             .await;
         
         builder.button_configuration(&BUTTON_CONFIGURATION_SETTINGS);
