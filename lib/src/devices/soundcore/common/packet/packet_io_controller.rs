@@ -143,6 +143,7 @@ impl<ConnectionType: RfcommConnection> PacketIOController<ConnectionType> {
         self.connection
             .write(&packet.bytes(self.checksum_kind))
             .await
+            .map_err(Into::into)
     }
 }
 
