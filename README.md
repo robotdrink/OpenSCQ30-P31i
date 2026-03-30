@@ -1,17 +1,25 @@
-## About
+# OpenSCQ30 - P31i Support Fork
 
-OpenSCQ30 is free software for controlling settings for Soundcore headphones and earbuds. It was originally intended for the Soundcore Life Q30, after which the project was named, but a range of devices are now supported.
+This is a fork of OpenSCQ30 with added support for the **Soundcore P31i**.
+
+OpenSCQ30 is free software for controlling Soundcore headphones and earbuds. While it started with the Life Q30, it's grown to support a ton of devices. I've specifically added the P31i to this version.
+
+### The P31i Situation
+I've added support for the Soundcore P31i here. One weird thing I noticed is that while most Soundcore devices use an `AXXXX` model number (like A3959), the P31i shows up as `D1202`. I haven't quite figured out why it uses a different naming convention, so I might be off on the conventional naming, but the implementation is there and it's working.
+
+This is still a work in progress. I'm currently figuring out exactly what's working and what isn't, but overall it's pretty well functioning and stable for daily use.
 
 ### Supported Platforms
-
-[x] Windows - Ready  
-[x] Linux - Ready  
-[x] Android - Ready
+- [x] Windows - Ready
+- [x] Linux - Ready
+- [x] Android - Ready
 
 ### Supported Devices
+This fork includes everything from the main project plus the P31i:
 
 | Model | Name                               |
 | ----- | ---------------------------------- |
+| **D1202** | **Soundcore P31i**             |
 | A3004 | Soundcore Q20i                     |
 | A3027 | Soundcore Life Q35                 |
 | A3028 | Soundcore Life Q30                 |
@@ -38,49 +46,17 @@ OpenSCQ30 is free software for controlling settings for Soundcore headphones and
 | A3957 | Soundcore Liberty 5                |
 | A3959 | Soundcore P30i / Soundcore R50i NC |
 
-## Installing
+## Getting Started
+If you're looking for the original project, check out [Oppzippy/OpenSCQ30](https://github.com/Oppzippy/OpenSCQ30). 
 
-See [GitHub Releases](https://github.com/Oppzippy/OpenSCQ30/releases). All files are signed with [my GPG key](https://kylescheuing.com/publickey.txt).
-
-[![Flathub](https://img.shields.io/flathub/v/com.oppzippy.OpenSCQ30)](https://flathub.org/apps/com.oppzippy.OpenSCQ30)
-[![IzzyOnDroid](https://img.shields.io/endpoint?url=https://apt.izzysoft.de/fdroid/api/v1/shield/com.oppzippy.openscq30)](https://apt.izzysoft.de/fdroid/index/apk/com.oppzippy.openscq30)
-
-[![Packaging status](https://repology.org/badge/vertical-allrepos/openscq30.svg)](https://repology.org/project/openscq30/versions)
-
-## Mirrors
-
-Issues and pull requests are accepted on both GitHub and Codeberg, although CI and releases are only on github.
-
-- GitHub: https://github.com/Oppzippy/OpenSCQ30
-- Codeberg: https://codeberg.org/Oppzippy/OpenSCQ30
-
-## Contributing
-
-### Code
-
-See [docs/development.md](docs/development.md)
-
-### Translations
-
-[![Translation status](https://translate.codeberg.org/widget/openscq30/multi-auto.svg)](https://translate.codeberg.org/engage/openscq30/)
-
-## Demo
-
-### Desktop
-
-[desktop-demo.webm](https://github.com/user-attachments/assets/3df615f5-2e5d-44e8-9604-f5175c11ea5b)
-
-### Android
-
-[android-demo.webm](https://github.com/user-attachments/assets/bf48a9f3-db73-4f26-b1e7-edac5f3fba32)
-
-## Building
-
+For this fork, you can build it yourself following the docs:
 - Windows: [docs/build-windows.md](docs/build-windows.md)
-- MacOS: [docs/build-macos.md](docs/build-macos.md)
 - Linux: [docs/build-linux.md](docs/build-linux.md)
 - Android: [docs/build-android.md](docs/build-android.md)
 
-## Running Tests
+## Contributing
+Everything here is open to interpretation.
 
-`just test` will run all unit and integration tests. To run tests for a specific package, use `just gui/ test` for example.
+## Original Project Links
+- GitHub: https://github.com/Oppzippy/OpenSCQ30
+- Codeberg: https://codeberg.org/Oppzippy/OpenSCQ30
