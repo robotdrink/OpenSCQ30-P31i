@@ -10,6 +10,7 @@ import androidx.core.content.getSystemService
 import androidx.lifecycle.ViewModel
 import com.oppzippy.openscq30.features.autoconnect.AutoConnectService
 import com.oppzippy.openscq30.features.preferences.Preferences
+import com.oppzippy.openscq30.ui.theme.ThemeType
 import com.oppzippy.openscq30.ui.utils.ToastHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -27,11 +28,11 @@ class SettingsViewModel @Inject constructor(
         private const val TAG = "SettingsViewModel"
     }
 
-    private val _autoConnect = MutableStateFlow(preferences.autoConnect)
-    val autoConnect = _autoConnect.asStateFlow()
+    val autoConnect = preferences.autoConnectFlow
+    val theme = preferences.themeFlow
+    val dynamicColorEnabled = preferences.dynamicColorFlow
 
     fun setAutoConnect(value: Boolean) {
-        _autoConnect.value = value
         preferences.autoConnect = value
         val intent = Intent(context, AutoConnectService::class.java)
         if (value) {
@@ -39,6 +40,14 @@ class SettingsViewModel @Inject constructor(
         } else {
             context.stopService(intent)
         }
+    }
+
+    fun setTheme(theme: ThemeType?) {
+        preferences.theme = theme
+    }
+
+    fun setDynamicColor(enabled: Boolean) {
+        preferences.dynamicColor = enabled
     }
 
     fun copyLogs() {

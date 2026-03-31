@@ -30,7 +30,7 @@ class NotificationBuilder @Inject constructor(private val context: Service) {
         }
 
         val builder = Notification.Builder(context, DeviceService.NOTIFICATION_CHANNEL_ID).setOngoing(true)
-            .setOnlyAlertOnce(true).setSmallIcon(R.drawable.headphones).setContentTitle(
+            .setOnlyAlertOnce(true).setSmallIcon(R.drawable.openscq30_logo_foreground).setContentTitle(
                 when (status) {
                     is ConnectionStatus.AwaitingConnection -> context.getString(R.string.awaiting_connection)
 
@@ -85,7 +85,7 @@ class NotificationBuilder @Inject constructor(private val context: Service) {
                     name,
                     icon = Icon.createWithResource(
                         context,
-                        if (index == 0) R.drawable.counter_1_48px else R.drawable.counter_2_48px,
+                        if (index == 0) R.drawable.counter_1_24px else R.drawable.counter_2_24px,
                     ),
                 ),
             )
