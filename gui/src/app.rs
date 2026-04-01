@@ -521,9 +521,9 @@ impl Application for AppModel {
 
 impl AppModel {
     pub fn update_title(&mut self) -> cosmic::app::Task<Message> {
-        if let Some(id) = self.core.main_window_id() {
+        if let Some(_id) = self.core.main_window_id() {
             self.set_header_title(fl!("openscq30"));
-            self.set_window_title(fl!("openscq30"), id)
+            self.set_window_title(fl!("openscq30"))
         } else {
             Task::none()
         }

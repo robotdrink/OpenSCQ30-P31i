@@ -16,9 +16,7 @@ bundled-dependencies = ["openscq30-lib/bundled-dependencies"]
 [dependencies]
 tokio = { workspace = true, features = ["fs"] }
 futures = { workspace = true }
-libcosmic = { workspace = true, features = [
-    "a11y",
-    "dbus-config",
+libcosmic = { workspace = true, default-features = false, features = [
     "tokio",
     "winit",
     "wgpu",
@@ -45,7 +43,7 @@ itertools = { workspace = true }
 open = { workspace = true }
 
 [target.'cfg(target_os = "linux")'.dependencies]
-libcosmic = { workspace = true, features = ["wayland"] }
+libcosmic = { workspace = true, features = ["wayland", "a11y", "dbus-config"] }
 
 [target.'cfg(target_os = "windows")'.dependencies]
 sysinfo = { workspace = true }
